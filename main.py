@@ -1,3 +1,5 @@
+from Grafica import grafico
+
 from AFD import AFD
 from Pila import AFDP
 
@@ -55,6 +57,7 @@ def inicio(script, tokens):
                 print("Correcto")
             else:
                 print("Estructura De Archivo Mala")
+            print(tokens)
             inicio(script, tokens)
         else:
             print("----NO HAY TOKENS----")
@@ -62,6 +65,8 @@ def inicio(script, tokens):
     elif comando == '4':
         print("-------------------------------------------")
         if tokens:
+            grafico(tokens)
+            print(tokens)
             inicio(script, tokens)
         else:
             print("----NO HAY TOKENS----")

@@ -1,0 +1,28 @@
+digraph grafica{
+rankdir=LR;
+node [shape = record, style=filled];
+nodo1 [ label ="Asignacion: tk_iden"];
+nodo2 [ label ="Sentencia tk_if"];
+nodo3 [ label ="Condicion tk_iden"];
+nodo4 [ label ="Llamada: tk_print"];
+nodo5 [ label ="Valores: tk_valor"];
+nodo6 [ label ="Sentencia tk_while"];
+nodo7 [ label ="Condicion tk_iden"];
+nodo8 [ label ="Llamada: tk_print"];
+nodo9 [ label ="Valores: "];
+nodo10 [ label ="Llamada: tk_iden"];
+nodo11 [ label ="Valores: tk_,tk_,tk_valortk_,tk_valortk_,tk_valor"];
+nodo12 [ label ="Sentencia tk_switch"];
+nodo13 [ label ="Condicion tk_valor"];
+nodo14 [ label ="Caso tk_casetk_valor"];
+nodo15 [ label ="Sentencia tk_foreach"];
+nodo16 [ label ="Condicion tk_identk_intk_iden"];
+nodo17 [ label ="Llamada: tk_print"];
+nodo18 [ label ="Valores: tk_valor"];
+nodo19 [ label ="Caso tk_casetk_valor"];
+nodo20 [ label ="Caso tk_break"];
+nodo21 [ label ="Caso tk_default"];
+nodo22 [ label ="Caso tk_break"];
+nodo23 [ label ="Llamada: tk_iden"];
+nodo24 [ label ="Parametros: tk_identk_,tk_identk_,tk_identk_,tk_identk_,tk_iden"];
+}
