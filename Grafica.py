@@ -5,6 +5,7 @@ def grafico(tokens):
     estado = 0
     nodo = 1
     temp = ""
+    pivote = []
     nodos = []
     variable = False
     ciclo = False
@@ -46,6 +47,8 @@ def grafico(tokens):
                     temp = i
                     imprimir = True
                     estado = 1
+                elif i == "tk_}":
+                    nodos.append("}")
             elif estado == 1:
                 if variable:
                     if i == "tk_iden":
@@ -57,23 +60,30 @@ def grafico(tokens):
                         temp = ""
                         variable = False
                 elif ciclo:
-                    if i == "tk_iden":
-                        arch.write('nodo' + str(nodo) + ' [ label ="Sentencia ' + temp + '"];' + "\n")
-                        nodos.append("nodo" + str(nodo))
-                        nodo = nodo + 1
-                        arch.write('nodo' + str(nodo) + ' [ label ="Condicion ' + i + '"];' + "\n")
+                    if i == "tk_(":
+                        arch.write('nodo' + str(nodo) + ' [ label ="Sentencia ' + temp + '",fillcolor=green];' + "\n")
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
                         temp = ""
+                    elif i == "tk_iden":
+                        temp = i
+                    elif i == "tk_)":
+                        arch.write('nodo' + str(nodo) + ' [ label ="Condicion ' + temp + '"];' + "\n")
+                        nodos.append("nodo" + str(nodo))
+                        nodo = nodo + 1
+                        temp = ""
+                    elif i == "tk_{":
+                        nodos.append("{")
                         estado = 0
                         ciclo = False
-                    elif i != "tk_(":
+                        temp = ""
+                    else:
                         estado = 0
                         temp = ""
                         ciclo = False
                 elif ciclof:
                     if i == "tk_(":
-                        arch.write('nodo' + str(nodo) + ' [ label ="Sentencia ' + temp + '"];' + "\n")
+                        arch.write('nodo' + str(nodo) + ' [ label ="Sentencia ' + temp + '",fillcolor=green];' + "\n")
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
                         temp = ""
@@ -84,6 +94,9 @@ def grafico(tokens):
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
                         temp = ""
+                    elif i == "tk_{":
+                        nodos.append("{")
+                        temp = ""
                         estado = 0
                         ciclof = False
                     else:
@@ -92,7 +105,7 @@ def grafico(tokens):
                         ciclof = False
                 elif ciclos:
                     if i == "tk_(":
-                        arch.write('nodo' + str(nodo) + ' [ label ="Sentencia ' + temp + '"];' + "\n")
+                        arch.write('nodo' + str(nodo) + ' [ label ="Sentencia ' + temp + '",fillcolor=green];' + "\n")
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
                         temp = ""
@@ -103,6 +116,9 @@ def grafico(tokens):
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
                         temp = ""
+                    elif i == "tk_{":
+                        nodos.append("{")
+                        temp = ""
                         estado = 0
                         ciclos = False
                     else:
@@ -110,9 +126,7 @@ def grafico(tokens):
                         temp = ""
                         ciclos = False
                 elif casos:
-                    if i == "tk_valor":
-                        temp = temp + i
-                    elif i == "tk_;" or i == "tk_:":
+                    if i == "tk_;" or i == "tk_:":
                         arch.write('nodo' + str(nodo) + ' [ label ="Caso ' + temp + '"];' + "\n")
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
@@ -189,14 +203,32 @@ def grafico(tokens):
                         nodos.append("nodo" + str(nodo))
                         nodo = nodo + 1
                         temp = ""
+                    elif i == "tk_{":
+                        nodos.append("{")
+                        temp = ""
                         estado = 0
                         variable = False
-                    else:
+                    elif i != "tk_=>":
                         estado = 0
                         temp = ""
-
-        #arch.write('curso101->curso103' + "\n")
-        arch.write('}' + "\n")
+        bandera = False
+        for z in range(0, len(nodos) - 1):
+            if z != 0:
+                if nodos[z] == "{":
+                    pivote.append(nodos[z - 2])
+                elif nodos[z] == "}":
+                    if nodos[z + 1] != "}":
+                        arch.write(pivote.pop() + '->' + nodos[z + 1] + ";" + "\n")
+                        bandera = True
+                else:
+                    if not bandera:
+                        if nodos[z - 1] == "{" or nodos[z - 1] == "}":
+                            arch.write(nodos[z - 2] + '->' + nodos[z] + ";" + "\n")
+                        else:
+                            arch.write(nodos[z - 1] + '->' + nodos[z] + ";" + "\n")
+                    else:
+                        bandera = False
+        arch.write('}')
         arch.close()
         print("Grafo Creado")
         os.system("dot -Tpng grafico.dot -o imagen.png")

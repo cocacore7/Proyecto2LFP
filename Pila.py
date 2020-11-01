@@ -1,6 +1,5 @@
 def AFDP(tokens):
     pila = []
-    cima = ""
     leer = ""
     ingresar = ""
     estado = 0
