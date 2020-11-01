@@ -24,7 +24,7 @@ def inicio(script, tokens):
     print("-------------------------------------------")
     print("              ---Comandos---               ")
     print("1) CARGAR SCRIPT")
-    print("2) MANEJO AFD")
+    print("2) GRAMATICA")
     print("3) PILA INTERACTIVA")
     print("4) DIAGRAMA DE BLOQUES")
     print("5) SALIR")
